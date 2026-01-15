@@ -20,7 +20,7 @@ Dynamic web content generator with customizable layouts and real-time editing ca
 AI-powered dashboard with Gemini integration for intelligent content generation and analysis.
 - **Tech Stack**: React, TypeScript, Vite, Gemini AI
 
-### 3. [xTab-dasboard](https://github.com/AmVa456/xTab-dasboard)
+### 3. [xTab Dashboard](https://github.com/AmVa456/xTab-dasboard)
 **Status**: 🚀 Deploying | **Demo**: [amva456.github.io/xTab-dasboard](https://amva456.github.io/xTab-dasboard/)
 
 Modern social media post management dashboard with scheduling and analytics features.
