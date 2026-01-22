@@ -33,7 +33,7 @@ Developer dashboard with IRC client, RSS reader, and integrated terminal for pro
 - **Tech Stack**: Node.js, Express, WebSocket
 
 ### 5. [xtab-pro](https://github.com/AmVa456/xtab-pro)
-**Status**: 📚 Docs | **Demo**: [amva456.github.io/xtab-pro](https://amva456.github.io/xtab-pro/)
+**Status**: ✅ Live | **Demo**: [amva456.github.io/xtab-pro](https://amva456.github.io/xtab-pro/)
 
 Web development dashboard bot for Discord with project management and collaboration tools.
 - **Tech Stack**: Discord.js, Node.js
