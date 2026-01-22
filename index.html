@@ -3,49 +3,281 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AmVa456 Projects</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            line-height: 1.6;
-        }
-        h1 {
-            color: #24292e;
-            border-bottom: 1px solid #e1e4e8;
-            padding-bottom: 10px;
-        }
-        .project {
-            margin: 20px 0;
-            padding: 20px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #f6f8fa;
-        }
-        .project h2 {
-            margin-top: 0;
-            color: #0366d6;
-        }
-        .project a {
-            color: #0366d6;
-            text-decoration: none;
-        }
-        .project a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <meta name="description" content="AmVa456 - xTab Series Portfolio. Web Development Dashboard Suite featuring AI-powered tools, social media management, and developer utilities.">
+    <meta name="keywords" content="web development, dashboard, AI, React, TypeScript, Node.js, portfolio">
+    <meta name="author" content="AmVa456">
+    <meta property="og:title" content="AmVa456 - xTab Series Portfolio">
+    <meta property="og:description" content="Web Development Dashboard Suite featuring 5 innovative applications">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://amva456.github.io/">
+    <title>AmVa456 - xTab Series Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 </head>
 <body>
-    <h1>AmVa456 Projects</h1>
-    
-    <div class="project">
-        <h2>xtab</h2>
-        <p>
-            <a href="./xtab/">View Project</a> | 
-            <a href="https://github.com/AmVa456/xtab">GitHub Repository</a>
-        </p>
-    </div>
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-text">AmVa456</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" aria-label="Navigate to home section">Home</a></li>
+                <li><a href="#projects" aria-label="Navigate to projects section">Projects</a></li>
+                <li><a href="#about" aria-label="Navigate to about section">About</a></li>
+                <li><a href="#tech" aria-label="Navigate to tech stack section">Tech Stack</a></li>
+                <li><a href="#contact" aria-label="Navigate to contact section">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" aria-label="Toggle dark/light theme">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero" role="banner">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="gradient-text">AmVa456</span>
+            </h1>
+            <h2 class="hero-subtitle">xTab Series - Web Development Dashboard Suite</h2>
+            <p class="hero-description">
+                Building innovative web applications and developer tools that enhance productivity and streamline workflows
+            </p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary">View Projects</a>
+                <a href="https://github.com/AmVa456" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                    GitHub Profile
+                </a>
+            </div>
+        </div>
+        <div class="hero-decoration">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
+        </div>
+    </section>
+
+    <!-- Projects Grid Section -->
+    <section id="projects" class="projects-section">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-description">Explore the xTab series - a collection of 5 powerful web applications</p>
+            
+            <div class="projects-grid">
+                <!-- Project Card 1: xtab -->
+                <article class="project-card" role="article">
+                    <div class="card-header">
+                        <img src="assets/xtab-icon.svg" alt="xtab application icon" class="project-icon">
+                        <span class="status-badge status-live">✅ Live</span>
+                    </div>
+                    <h3 class="project-title">xtab</h3>
+                    <p class="project-description">Dynamic web content generator with customizable layouts and real-time editing capabilities</p>
+                    <div class="tech-stack">
+                        <span class="tech-badge tech-javascript">JavaScript</span>
+                        <span class="tech-badge tech-html">HTML</span>
+                        <span class="tech-badge tech-css">CSS</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://amva456.github.io/xtab/" target="_blank" rel="noopener noreferrer" class="btn btn-demo">
+                            View Demo
+                        </a>
+                        <a href="https://github.com/AmVa456/xtab" target="_blank" rel="noopener noreferrer" class="btn btn-code">
+                            View Code
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Project Card 2: xtab-gemini -->
+                <article class="project-card" role="article">
+                    <div class="card-header">
+                        <img src="assets/xtab-gemini-icon.svg" alt="xtab-gemini application icon" class="project-icon">
+                        <span class="status-badge status-deploying">🚀 Deploying</span>
+                    </div>
+                    <h3 class="project-title">xtab-gemini</h3>
+                    <p class="project-description">AI-powered dashboard with Gemini integration for intelligent content generation and analysis</p>
+                    <div class="tech-stack">
+                        <span class="tech-badge tech-react">React</span>
+                        <span class="tech-badge tech-typescript">TypeScript</span>
+                        <span class="tech-badge tech-vite">Vite</span>
+                        <span class="tech-badge tech-ai">Gemini AI</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://amva456.github.io/xtab-gemini/" target="_blank" rel="noopener noreferrer" class="btn btn-demo">
+                            View Demo
+                        </a>
+                        <a href="https://github.com/AmVa456/xtab-gemini" target="_blank" rel="noopener noreferrer" class="btn btn-code">
+                            View Code
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Project Card 3: xTab-dasboard -->
+                <article class="project-card" role="article">
+                    <div class="card-header">
+                        <img src="assets/xtab-dashboard-icon.svg" alt="xTab Dashboard application icon" class="project-icon">
+                        <span class="status-badge status-deploying">🚀 Deploying</span>
+                    </div>
+                    <h3 class="project-title">xTab Dashboard</h3>
+                    <p class="project-description">Modern social media post management dashboard with scheduling and analytics features</p>
+                    <div class="tech-stack">
+                        <span class="tech-badge tech-react">React</span>
+                        <span class="tech-badge tech-typescript">TypeScript</span>
+                        <span class="tech-badge tech-express">Express</span>
+                        <span class="tech-badge tech-postgresql">PostgreSQL</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://amva456.github.io/xTab-dasboard/" target="_blank" rel="noopener noreferrer" class="btn btn-demo">
+                            View Demo
+                        </a>
+                        <a href="https://github.com/AmVa456/xTab-dasboard" target="_blank" rel="noopener noreferrer" class="btn btn-code">
+                            View Code
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Project Card 4: xWeb -->
+                <article class="project-card" role="article">
+                    <div class="card-header">
+                        <img src="assets/xweb-icon.svg" alt="xWeb application icon" class="project-icon">
+                        <span class="status-badge status-docs">📚 Docs</span>
+                    </div>
+                    <h3 class="project-title">xWeb</h3>
+                    <p class="project-description">Developer dashboard with IRC client, RSS reader, and integrated terminal for productivity</p>
+                    <div class="tech-stack">
+                        <span class="tech-badge tech-nodejs">Node.js</span>
+                        <span class="tech-badge tech-express">Express</span>
+                        <span class="tech-badge tech-websocket">WebSocket</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://amva456.github.io/xWeb/" target="_blank" rel="noopener noreferrer" class="btn btn-demo">
+                            View Demo
+                        </a>
+                        <a href="https://github.com/AmVa456/xWeb" target="_blank" rel="noopener noreferrer" class="btn btn-code">
+                            View Code
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Project Card 5: xtab-pro -->
+                <article class="project-card" role="article">
+                    <div class="card-header">
+                        <img src="assets/xtab-pro-icon.svg" alt="xtab-pro application icon" class="project-icon">
+                        <span class="status-badge status-docs">📚 Docs</span>
+                    </div>
+                    <h3 class="project-title">xtab-pro</h3>
+                    <p class="project-description">Web development dashboard bot for Discord with project management and collaboration tools</p>
+                    <div class="tech-stack">
+                        <span class="tech-badge tech-discordjs">Discord.js</span>
+                        <span class="tech-badge tech-nodejs">Node.js</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://amva456.github.io/xtab-pro/" target="_blank" rel="noopener noreferrer" class="btn btn-demo">
+                            View Demo
+                        </a>
+                        <a href="https://github.com/AmVa456/xtab-pro" target="_blank" rel="noopener noreferrer" class="btn btn-code">
+                            View Code
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="section-title">About the xTab Series</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        The <strong>xTab Series</strong> is a collection of innovative web applications designed to enhance 
+                        productivity and streamline development workflows. Each application in the series focuses on a specific 
+                        aspect of modern web development, from AI-powered content generation to social media management and 
+                        developer utilities.
+                    </p>
+                    <p>
+                        Built with modern technologies like React, TypeScript, Node.js, and AI integration, the xTab Series 
+                        represents a commitment to creating powerful, user-friendly tools that solve real-world problems. 
+                        Whether you're managing social media posts, generating AI-powered content, or organizing your 
+                        development workflow, there's an xTab application designed for you.
+                    </p>
+                    <p>
+                        All projects are open source and continuously evolving with new features and improvements. 
+                        Contributions and feedback are always welcome!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section id="tech" class="tech-section">
+        <div class="container">
+            <h2 class="section-title">Technology Stack</h2>
+            <p class="section-description">Technologies and frameworks used across the xTab series</p>
+            
+            <div class="tech-categories">
+                <div class="tech-category">
+                    <h3>Frontend</h3>
+                    <div class="tech-items">
+                        <span class="tech-badge tech-react">React</span>
+                        <span class="tech-badge tech-typescript">TypeScript</span>
+                        <span class="tech-badge tech-javascript">JavaScript</span>
+                        <span class="tech-badge tech-html">HTML5</span>
+                        <span class="tech-badge tech-css">CSS3</span>
+                        <span class="tech-badge tech-vite">Vite</span>
+                    </div>
+                </div>
+                
+                <div class="tech-category">
+                    <h3>Backend</h3>
+                    <div class="tech-items">
+                        <span class="tech-badge tech-nodejs">Node.js</span>
+                        <span class="tech-badge tech-express">Express</span>
+                        <span class="tech-badge tech-postgresql">PostgreSQL</span>
+                        <span class="tech-badge tech-websocket">WebSocket</span>
+                    </div>
+                </div>
+                
+                <div class="tech-category">
+                    <h3>AI & Tools</h3>
+                    <div class="tech-items">
+                        <span class="tech-badge tech-ai">Gemini AI</span>
+                        <span class="tech-badge tech-discordjs">Discord.js</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <p class="section-description">Connect with me on GitHub and explore more projects</p>
+            
+            <div class="contact-links">
+                <a href="https://github.com/AmVa456" target="_blank" rel="noopener noreferrer" class="contact-link" aria-label="Visit GitHub profile">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 AmVa456. Built with ❤️ for the developer community.</p>
+            <p class="footer-links">
+                <a href="https://github.com/AmVa456/AmVa456.github.io" target="_blank" rel="noopener noreferrer">View Source</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
