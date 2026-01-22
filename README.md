@@ -15,7 +15,7 @@ Dynamic web content generator with customizable layouts and real-time editing ca
 - **Tech Stack**: JavaScript, HTML, CSS
 
 ### 2. [xtab-gemini](https://github.com/AmVa456/xtab-gemini)
-**Status**: 🚀 Deploying | **Demo**: [amva456.github.io/xtab-gemini](https://amva456.github.io/xtab-gemini/)
+**Status**: ✅ Live | **Demo**: [amva456.github.io/xtab-gemini](https://amva456.github.io/xtab-gemini/)
 
 AI-powered dashboard with Gemini integration for intelligent content generation and analysis.
 - **Tech Stack**: React, TypeScript, Vite, Gemini AI
