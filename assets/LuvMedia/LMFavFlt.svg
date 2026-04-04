@@ -1,0 +1,27 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="luvBloomFaviconFlat" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f7f7f7"/>
+      <stop offset="45%" stop-color="#ffb3d9"/>
+      <stop offset="100%" stop-color="#a7d8ff"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Bloom -->
+  <circle cx="256" cy="256" r="220" fill="url(#luvBloomFaviconFlat)" />
+
+  <!-- Interlocked LM -->
+  <g transform="translate(156, 150)">
+    <!-- Shared stroke (L-dominant) -->
+    <rect x="0" y="0" width="40" height="180" fill="#ffb3d9" stroke="#1a1a1a" stroke-opacity="0.25" stroke-width="4"/>
+
+    <!-- L arm -->
+    <rect x="0" y="140" width="120" height="40" rx="20" fill="#ffb3d9" stroke="#1a1a1a" stroke-opacity="0.25" stroke-width="4"/>
+
+    <!-- M right leg -->
+    <rect x="120" y="0" width="40" height="180" fill="#a7d8ff" stroke="#1a1a1a" stroke-opacity="0.25" stroke-width="4"/>
+
+    <!-- M middle peak -->
+    <polygon points="40,0 80,80 120,0" fill="#a7d8ff" stroke="#1a1a1a" stroke-opacity="0.25" stroke-width="4"/>
+  </g>
+</svg>
