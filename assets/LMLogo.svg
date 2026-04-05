@@ -1,0 +1,56 @@
+<svg width="600" height="600" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="luvBloom" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f7f7f7"/>
+      <stop offset="45%" stop-color="#ffb3d9"/>
+      <stop offset="100%" stop-color="#a7d8ff"/>
+    </radialGradient>
+
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="40" result="blur"/>
+      <feBlend in="SourceGraphic" in2="blur" mode="soft-light"/>
+    </filter>
+  </defs>
+
+  <!-- Bloom -->
+  <circle cx="300" cy="300" r="260" fill="url(#luvBloom)" filter="url(#softGlow)" />
+
+  <!-- Wordmark -->
+  <text x="50%" y="52%" text-anchor="middle" font-family="Quicksand, sans-serif"
+        font-size="96" fill="#ffb3d9" stroke="#1a1a1a" stroke-opacity="0.25" stroke-width="2">
+    Luv
+  </text>
+
+  <text x="50%" y="62%" text-anchor="middle" font-family="Quicksand, sans-serif"
+        font-size="96" fill="#a7d8ff" stroke="#1a1a1a" stroke-opacity="0.25" stroke-width="2">
+    Media
+  </text>
+</svg>
+<svg width="600" height="600" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="luvBloom" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f7f7f7"/>
+      <stop offset="45%" stop-color="#ffb3d9"/>
+      <stop offset="100%" stop-color="#a7d8ff"/>
+    </radialGradient>
+
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="40" result="blur"/>
+      <feBlend in="SourceGraphic" in2="blur" mode="soft-light"/>
+    </filter>
+  </defs>
+
+  <!-- Bloom -->
+  <circle cx="300" cy="300" r="260" fill="url(#luvBloom)" filter="url(#softGlow)" />
+
+  <!-- Wordmark -->
+  <text x="50%" y="52%" text-anchor="middle" font-family="Quicksand, sans-serif"
+        font-size="96" fill="#ffb3d9" stroke="#1a1a1a" stroke-opacity="0.25" stroke-width="2">
+    Luv
+  </text>
+
+  <text x="50%" y="62%" text-anchor="middle" font-family="Quicksand, sans-serif"
+        font-size="96" fill="#a7d8ff" stroke="#1a1a1a" stroke-opacity="0.25" stroke-width="2">
+    Media
+  </text>
+</svg>
