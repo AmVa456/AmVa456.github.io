@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>xFeed — Live RSS Reader</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#1A1A2E;--bg-card:#16213E;--bg-input:#2f2f50;
+  --border:#2f2f50;--text:#f0f0f5;--text-muted:#8888a8;
+  --pink:#E879F9;--cyan:#67E8F9;--lavender:#A78BFA;
+  --mint:#34D399;--amber:#FBBF24;--red:#F87171;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --radius:16px;
+}
+html{font-family:var(--font);background:var(--bg);color:var(--text);scroll-behavior:smooth}
+body{min-height:100vh}
+a{color:var(--cyan);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Header */
+.header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(26,26,46,0.92);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:16px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+}
+.header h1{font-size:22px;font-weight:800;letter-spacing:-0.5px}
+.header h1 span{color:var(--pink)}
+.header-actions{display:flex;gap:8px;margin-left:auto;align-items:center;flex-wrap:wrap}
+.btn{
+  padding:8px 18px;border-radius:24px;border:none;cursor:pointer;
+  font-size:13px;font-weight:600;transition:all .2s;font-family:var(--font);
+}
+.btn-pink{background:var(--pink);color:var(--bg)}
+.btn-pink:hover{background:#d06ae0;transform:scale(1.03)}
+.btn-cyan{background:var(--cyan);color:var(--bg)}
+.btn-cyan:hover{background:#50d8e8}
+.btn-ghost{background:transparent;color:var(--text-muted);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--pink);color:var(--pink)}
+.btn-sm{padding:5px 12px;font-size:11px}
+
+/* Filter bar */
+.filter-bar{
+  padding:12px 24px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+  border-bottom:1px solid var(--border);
+}
+.filter-chip{
+  padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;
+  border:1px solid var(--border);background:transparent;color:var(--text-muted);
+  cursor:pointer;transition:all .2s;font-family:var(--font);
+}
+.filter-chip.active{background:var(--pink);color:var(--bg);border-color:var(--pink)}
+.filter-chip:hover:not(.active){border-color:var(--pink);color:var(--pink)}
+.search-box{
+  margin-left:auto;padding:7px 14px;border-radius:20px;border:1px solid var(--border);
+  background:var(--bg-input);color:var(--text);font-size:13px;width:220px;
+  font-family:var(--font);outline:none;
+}
+.search-box:focus{border-color:var(--pink)}
+.search-box::placeholder{color:var(--text-muted)}
+
+/* Stats bar */
+.stats-bar{
+  padding:8px 24px;display:flex;gap:16px;font-size:12px;color:var(--text-muted);
+  border-bottom:1px solid var(--border);align-items:center;
+}
+.stat-num{color:var(--cyan);font-weight:700}
+
+/* Grid */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:16px;padding:24px;
+}
+.card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;
+  display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;
+}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,0.35)}
+.card-header{
+  padding:14px 18px 8px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px;
+}
+.card-source{
+  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;
+  color:var(--pink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60%;
+}
+.card-date{font-size:11px;color:var(--text-muted);white-space:nowrap}
+.card-body{padding:4px 18px 14px;flex:1}
+.card-title{
+  font-size:15px;font-weight:700;line-height:1.4;margin-bottom:6px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.card-title a{color:var(--text)}
+.card-title a:hover{color:var(--cyan);text-decoration:none}
+.card-desc{
+  font-size:13px;color:var(--text-muted);line-height:1.5;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+}
+.card-footer{
+  padding:10px 18px;border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.card-cat{
+  padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;color:var(--bg);
+}
+.card-read{font-size:11px;color:var(--cyan);font-weight:600;cursor:pointer}
+.card-read:hover{color:var(--pink)}
+
+/* Category colors */
+.cat-news{background:var(--lavender)}.cat-tech{background:var(--cyan)}
+.cat-dev{background:var(--pink)}.cat-design{background:var(--mint)}
+.cat-gaming{background:var(--amber)}.cat-science{background:#818CF8}
+.cat-business{background:#FB923C}.cat-entertainment{background:#F472B6}
+.cat-sports{background:var(--red)}.cat-other{background:#6B7280}
+
+/* Modal */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;
+  display:none;align-items:center;justify-content:center;padding:20px;
+  backdrop-filter:blur(4px);
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);
+  width:100%;max-width:520px;padding:28px;
+}
+.modal h2{font-size:18px;margin-bottom:18px}
+.modal h2 span{color:var(--pink)}
+.modal label{display:block;font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:4px;margin-top:14px}
+.modal input,.modal select,.modal textarea{
+  width:100%;padding:10px 14px;border-radius:12px;border:1px solid var(--border);
+  background:var(--bg-input);color:var(--text);font-size:13px;font-family:var(--font);outline:none;
+}
+.modal input:focus,.modal select:focus,.modal textarea:focus{border-color:var(--pink)}
+.modal select{cursor:pointer;appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238888a8' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;
+}
+.modal-actions{display:flex;gap:8px;margin-top:22px;justify-content:flex-end}
+.feed-list-item{
+  display:flex;align-items:center;gap:10px;padding:10px 0;
+  border-bottom:1px solid var(--border);
+}
+.feed-list-item:last-child{border-bottom:none}
+.feed-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.feed-list-info{flex:1;min-width:0}
+.feed-list-name{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.feed-list-url{font-size:11px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn-del{
+  background:transparent;border:1px solid var(--border);color:var(--red);
+  border-radius:8px;padding:4px 10px;cursor:pointer;font-size:11px;font-family:var(--font);
+}
+.btn-del:hover{background:var(--red);color:var(--bg);border-color:var(--red)}
+
+/* Loading */
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--border);
+  border-top-color:var(--pink);border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-bar{padding:24px;text-align:center;color:var(--text-muted);font-size:14px}
+
+/* Empty */
+.empty-state{
+  text-align:center;padding:80px 24px;color:var(--text-muted);
+}
+.empty-state h2{font-size:24px;color:var(--text);margin-bottom:8px}
+.empty-state p{margin-bottom:20px}
+
+/* Refresh indicator */
+.refresh-badge{
+  font-size:11px;color:var(--mint);display:flex;align-items:center;gap:4px;
+}
+
+/* Toast */
+.toast{
+  position:fixed;bottom:24px;right:24px;z-index:300;
+  background:var(--bg-card);border:1px solid var(--border);border-radius:12px;
+  padding:12px 20px;font-size:13px;display:none;
+  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+}
+.toast.show{display:flex;align-items:center;gap:8px;animation:slideUp .3s}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+/* Responsive */
+@media(max-width:640px){
+  .header{padding:12px 16px}
+  .grid{grid-template-columns:1fr;padding:16px}
+  .filter-bar{padding:10px 16px}
+  .search-box{width:100%;margin-left:0}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <h1><span>x</span>Feed</h1>
+  <div class="header-actions">
+    <span class="refresh-badge" id="refreshBadge"></span>
+    <button class="btn btn-ghost btn-sm" onclick="refreshAll()"><span class="spinner" id="refreshSpinner" style="display:none"></span> Refresh</button>
+    <button class="btn btn-ghost btn-sm" onclick="openManage()">Manage</button>
+    <button class="btn btn-pink" onclick="openAdd()">+ Add Feed</button>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <button class="filter-chip active" data-cat="all" onclick="setFilter('all',this)">All</button>
+  <button class="filter-chip" data-cat="news" onclick="setFilter('news',this)">News</button>
+  <button class="filter-chip" data-cat="tech" onclick="setFilter('tech',this)">Tech</button>
+  <button class="filter-chip" data-cat="dev" onclick="setFilter('dev',this)">Dev</button>
+  <button class="filter-chip" data-cat="design" onclick="setFilter('design',this)">Design</button>
+  <button class="filter-chip" data-cat="gaming" onclick="setFilter('gaming',this)">Gaming</button>
+  <button class="filter-chip" data-cat="science" onclick="setFilter('science',this)">Science</button>
+  <button class="filter-chip" data-cat="other" onclick="setFilter('other',this)">Other</button>
+  <input type="text" class="search-box" placeholder="Search articles..." id="searchBox" oninput="renderItems()">
+</div>
+
+<div class="stats-bar">
+  <span><span class="stat-num" id="feedCount">0</span> feeds</span>
+  <span><span class="stat-num" id="itemCount">0</span> articles</span>
+  <span id="lastUpdated"></span>
+</div>
+
+<div id="content"></div>
+
+<!-- Add Feed Modal -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <h2>Add <span>Feed</span></h2>
+    <label>Feed Name</label>
+    <input type="text" id="addName" placeholder="e.g. Hacker News">
+    <label>RSS / Atom URL</label>
+    <input type="url" id="addUrl" placeholder="https://example.com/rss.xml">
+    <label>Category</label>
+    <select id="addCat">
+      <option value="news">News</option><option value="tech" selected>Tech</option>
+      <option value="dev">Dev</option><option value="design">Design</option>
+      <option value="gaming">Gaming</option><option value="science">Science</option>
+      <option value="business">Business</option><option value="entertainment">Entertainment</option>
+      <option value="sports">Sports</option><option value="other">Other</option>
+    </select>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeAdd()">Cancel</button>
+      <button class="btn btn-pink" onclick="addFeed()">Add Feed</button>
+    </div>
+  </div>
+</div>
+
+<!-- Manage Feeds Modal -->
+<div class="modal-overlay" id="manageModal">
+  <div class="modal" style="max-height:80vh;overflow-y:auto">
+    <h2>Manage <span>Feeds</span></h2>
+    <div id="manageFeedList"></div>
+    <div class="modal-actions" style="margin-top:16px">
+      <button class="btn btn-ghost" onclick="closeManage()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============ State ============
+const PROXY = 'https://api.allorigins.win/raw?url=';
+let feeds = JSON.parse(localStorage.getItem('xfeed-feeds') || '[]');
+let items = [];
+let activeFilter = 'all';
+
+// ============ Feed CRUD ============
+function saveFeeds() { localStorage.setItem('xfeed-feeds', JSON.stringify(feeds)); }
+
+function openAdd() { document.getElementById('addModal').classList.add('open'); document.getElementById('addUrl').focus(); }
+function closeAdd() { document.getElementById('addModal').classList.remove('open'); document.getElementById('addName').value=''; document.getElementById('addUrl').value=''; }
+
+function addFeed() {
+  const name = document.getElementById('addName').value.trim();
+  const url = document.getElementById('addUrl').value.trim();
+  const cat = document.getElementById('addCat').value;
+  if (!url) return toast('Enter a feed URL', 'var(--red)');
+  if (feeds.find(f => f.url === url)) return toast('Feed already exists', 'var(--amber)');
+  feeds.push({ id: Date.now().toString(36), name: name || url, url, cat, added: new Date().toISOString() });
+  saveFeeds();
+  closeAdd();
+  toast('Feed added', 'var(--mint)');
+  fetchFeed(feeds[feeds.length - 1]);
+  updateStats();
+}
+
+function removeFeed(id) {
+  feeds = feeds.filter(f => f.id !== id);
+  items = items.filter(i => i.feedId !== id);
+  saveFeeds();
+  renderManageList();
+  renderItems();
+  updateStats();
+  toast('Feed removed', 'var(--red)');
+}
+
+// ============ Manage Modal ============
+function openManage() {
+  renderManageList();
+  document.getElementById('manageModal').classList.add('open');
+}
+function closeManage() { document.getElementById('manageModal').classList.remove('open'); }
+
+function renderManageList() {
+  const el = document.getElementById('manageFeedList');
+  if (!feeds.length) { el.innerHTML = '<p style="color:var(--text-muted);font-size:13px;padding:12px 0">No feeds yet.</p>'; return; }
+  el.innerHTML = feeds.map(f => `
+    <div class="feed-list-item">
+      <div class="feed-dot" style="background:var(--${catColor(f.cat)})"></div>
+      <div class="feed-list-info">
+        <div class="feed-list-name">${esc(f.name)}</div>
+        <div class="feed-list-url">${esc(f.url)}</div>
+      </div>
+      <button class="btn-del" onclick="removeFeed('${f.id}')">Remove</button>
+    </div>
+  `).join('');
+}
+
+// ============ Fetch & Parse ============
+async function fetchFeed(feed) {
+  try {
+    const res = await fetch(PROXY + encodeURIComponent(feed.url));
+    if (!res.ok) throw new Error(res.status);
+    const text = await res.text();
+    const doc = new DOMParser().parseFromString(text, 'text/xml');
+    const parseError = doc.querySelector('parsererror');
+    if (parseError) throw new Error('Parse error');
+
+    // RSS 2.0
+    const rssItems = doc.querySelectorAll('item');
+    if (rssItems.length) {
+      rssItems.forEach(it => {
+        const title = it.querySelector('title')?.textContent || '';
+        const link = it.querySelector('link')?.textContent || '';
+        const desc = it.querySelector('description')?.textContent || '';
+        const pubDate = it.querySelector('pubDate')?.textContent || '';
+        const guid = it.querySelector('guid')?.textContent || link || title;
+        if (!items.find(i => i.guid === guid && i.feedId === feed.id)) {
+          items.push({
+            feedId: feed.id, feedName: feed.name, cat: feed.cat,
+            title: stripHtml(title), link, desc: stripHtml(desc).slice(0, 300),
+            date: pubDate ? new Date(pubDate) : new Date(), guid
+          });
+        }
+      });
+    }
+
+    // Atom
+    const atomEntries = doc.querySelectorAll('entry');
+    if (atomEntries.length && !rssItems.length) {
+      atomEntries.forEach(en => {
+        const title = en.querySelector('title')?.textContent || '';
+        const linkEl = en.querySelector('link[href]');
+        const link = linkEl ? linkEl.getAttribute('href') : '';
+        const summary = en.querySelector('summary')?.textContent || en.querySelector('content')?.textContent || '';
+        const updated = en.querySelector('updated')?.textContent || en.querySelector('published')?.textContent || '';
+        const id = en.querySelector('id')?.textContent || link || title;
+        if (!items.find(i => i.guid === id && i.feedId === feed.id)) {
+          items.push({
+            feedId: feed.id, feedName: feed.name, cat: feed.cat,
+            title: stripHtml(title), link, desc: stripHtml(summary).slice(0, 300),
+            date: updated ? new Date(updated) : new Date(), guid: id
+          });
+        }
+      });
+    }
+  } catch (e) {
+    console.warn(`Failed to fetch ${feed.name}:`, e.message);
+  }
+}
+
+async function refreshAll() {
+  const spin = document.getElementById('refreshSpinner');
+  spin.style.display = 'inline-block';
+  items = [];
+  await Promise.allSettled(feeds.map(f => fetchFeed(f)));
+  items.sort((a, b) => b.date - a.date);
+  renderItems();
+  updateStats();
+  spin.style.display = 'none';
+  document.getElementById('refreshBadge').innerHTML = `<span style="color:var(--mint)">Updated ${new Date().toLocaleTimeString()}</span>`;
+  toast('All feeds refreshed', 'var(--mint)');
+}
+
+// ============ Render ============
+function renderItems() {
+  const el = document.getElementById('content');
+  const query = document.getElementById('searchBox').value.toLowerCase();
+  let filtered = items;
+  if (activeFilter !== 'all') filtered = filtered.filter(i => i.cat === activeFilter);
+  if (query) filtered = filtered.filter(i => i.title.toLowerCase().includes(query) || i.desc.toLowerCase().includes(query) || i.feedName.toLowerCase().includes(query));
+
+  if (!feeds.length) {
+    el.innerHTML = `<div class="empty-state"><h2>Welcome to xFeed</h2><p>Add your first RSS feed to get started.</p><button class="btn btn-pink" onclick="openAdd()">+ Add Feed</button></div>`;
+    return;
+  }
+  if (!filtered.length) {
+    el.innerHTML = `<div class="empty-state"><h2>No articles</h2><p>${items.length ? 'Try a different filter or search.' : 'Click Refresh to fetch your feeds.'}</p></div>`;
+    return;
+  }
+
+  el.innerHTML = `<div class="grid">${filtered.map(i => `
+    <article class="card">
+      <div class="card-header">
+        <span class="card-source">${esc(i.feedName)}</span>
+        <span class="card-date">${timeAgo(i.date)}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-title"><a href="${esc(i.link)}" target="_blank" rel="noopener">${esc(i.title)}</a></div>
+        <div class="card-desc">${esc(i.desc)}</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-cat cat-${i.cat}">${i.cat}</span>
+        <a class="card-read" href="${esc(i.link)}" target="_blank" rel="noopener">Read →</a>
+      </div>
+    </article>
+  `).join('')}</div>`;
+  document.getElementById('itemCount').textContent = filtered.length;
+}
+
+function setFilter(cat, el) {
+  activeFilter = cat;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderItems();
+}
+
+function updateStats() {
+  document.getElementById('feedCount').textContent = feeds.length;
+  document.getElementById('itemCount').textContent = items.length;
+}
+
+// ============ Helpers ============
+function esc(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+function stripHtml(s) { const d = document.createElement('div'); d.innerHTML = s || ''; return d.textContent || ''; }
+function catColor(c) {
+  const m = {news:'lavender',tech:'cyan',dev:'pink',design:'mint',gaming:'amber',science:'lavender',business:'amber',entertainment:'pink',sports:'red',other:'text-muted'};
+  return m[c] || 'text-muted';
+}
+function timeAgo(d) {
+  const s = Math.floor((Date.now() - d) / 1000);
+  if (s < 60) return 'just now';
+  if (s < 3600) return Math.floor(s/60) + 'm ago';
+  if (s < 86400) return Math.floor(s/3600) + 'h ago';
+  if (s < 604800) return Math.floor(s/86400) + 'd ago';
+  return d.toLocaleDateString();
+}
+function toast(msg, color) {
+  const t = document.getElementById('toast');
+  t.innerHTML = `<span style="color:${color||'var(--cyan)'}">●</span> ${msg}`;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ============ Keyboard shortcuts ============
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeAdd(); closeManage(); }
+  if (e.key === '/' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) {
+    e.preventDefault(); document.getElementById('searchBox').focus();
+  }
+});
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+});
+
+// ============ Init ============
+updateStats();
+if (feeds.length) {
+  document.getElementById('content').innerHTML = '<div class="loading-bar"><span class="spinner"></span> Fetching feeds...</div>';
+  refreshAll();
+} else {
+  renderItems();
+}
+
+// Auto-refresh every 5 minutes
+setInterval(() => { if (feeds.length) refreshAll(); }, 300000);
+</script>
+</body>
+</html>
